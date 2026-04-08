@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Cart - Furniro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;color:#333;background:#fff}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:18px 48px;border-bottom:1px solid #ddd;max-width:1200px;margin:0 auto}
+.navbar .logo{font-size:24px;font-weight:700}
+.nav-links{display:flex;gap:36px;font-weight:500}
+.nav-links a{transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:#B88E2F}
+.nav-icons{display:flex;gap:20px;align-items:center}
+.nav-icons a{font-size:20px;position:relative;transition:color .2s}
+.nav-icons a:hover{color:#B88E2F}
+.cart-badge{position:absolute;top:-8px;right:-10px;background:#B88E2F;color:#fff;font-size:11px;font-weight:600;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.hero{position:relative}
+.hero img{width:100%;height:500px;object-fit:cover}
+.hero-content{position:absolute;top:50%;right:48px;transform:translateY(-50%);background:#FFF3E3;padding:40px;border-radius:10px;max-width:420px}
+.hero-content .tag{font-size:13px;font-weight:600;letter-spacing:3px;color:#333;margin-bottom:8px}
+.hero-content h1{font-size:36px;font-weight:700;color:#B88E2F;line-height:1.2;margin-bottom:12px}
+.hero-content p{font-size:13px;color:#666;margin-bottom:20px}
+.btn-primary{background:#B88E2F;color:#fff;border:none;padding:14px 40px;font-weight:700;font-size:14px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:opacity .2s;display:inline-block}
+.btn-primary:hover{opacity:.9}
+.section-title{text-align:center;margin-bottom:10px;font-size:28px;font-weight:700}
+.section-subtitle{text-align:center;color:#888;font-size:14px;margin-bottom:40px}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1200px;margin:0 auto;padding:0 24px}
+@media(max-width:768px){.products-grid{grid-template-columns:repeat(2,1fr)}}
+.product-card{background:#F4F5F7;border-radius:6px;overflow:hidden;position:relative}
+.product-card img{width:100%;height:280px;object-fit:cover}
+.product-card .info{padding:16px}
+.product-card .info h3{font-size:18px;font-weight:600;margin-bottom:4px}
+.product-card .info .desc{font-size:13px;color:#888}
+.product-card .info .price{font-weight:600;margin-top:6px}
+.product-card .info .old-price{color:#999;text-decoration:line-through;font-size:13px;margin-left:8px}
+.product-card .badge-tag{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff}
+.badge-discount{background:#E97171}
+.badge-new{background:#2EC1AC}
+.product-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:0;transition:opacity .3s}
+.product-card:hover .product-overlay{opacity:1}
+.btn-add-cart{background:#fff;color:#B88E2F;font-weight:600;padding:10px 30px;border:none;cursor:pointer;font-size:14px;transition:all .2s}
+.btn-add-cart:hover{background:#B88E2F;color:#fff}
+.overlay-link{color:#fff;font-size:13px;font-weight:500}
+.overlay-link:hover{text-decoration:underline}
+.page-banner{background:#FFF3E3;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.page-banner h1{font-size:42px;font-weight:600}
+.page-banner .breadcrumb{font-size:14px;color:#888;margin-top:8px}
+.page-banner .breadcrumb a{color:#333;font-weight:500}
+.features-bar{background:#FFF3E3;padding:40px 24px}
+.features-inner{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1100px;margin:0 auto}
+@media(max-width:768px){.features-inner{grid-template-columns:repeat(2,1fr)}}
+.feature-item{display:flex;align-items:center;gap:12px}
+.feature-item .icon{font-size:32px}
+.feature-item h3{font-size:14px;font-weight:600}
+.feature-item p{font-size:12px;color:#888}
+.footer{border-top:1px solid #ddd}
+.footer-inner{max-width:1100px;margin:0 auto;padding:48px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+@media(max-width:768px){.footer-inner{grid-template-columns:repeat(2,1fr)}}
+.footer h3{font-size:20px;font-weight:700;margin-bottom:16px}
+.footer h4{color:#888;font-weight:500;margin-bottom:16px}
+.footer ul{list-style:none}
+.footer ul li{margin-bottom:12px;font-size:14px;font-weight:500}
+.footer ul li a:hover{color:#B88E2F}
+.footer-bottom{border-top:1px solid #ddd;padding:16px 24px;max-width:1100px;margin:0 auto;font-size:14px}
+.range-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto;padding:0 24px}
+@media(max-width:768px){.range-grid{grid-template-columns:1fr}}
+.range-card img{width:100%;height:480px;object-fit:cover;border-radius:8px;margin-bottom:12px}
+.range-card{text-align:center;font-size:18px;font-weight:600;cursor:pointer}
+.rooms-section{background:#FFF3E3;padding:60px 24px}
+.rooms-inner{max-width:1200px;margin:0 auto;display:flex;gap:24px;align-items:center}
+.rooms-text{min-width:280px}
+.rooms-text h2{font-size:28px;font-weight:700;line-height:1.3;margin-bottom:12px}
+.rooms-text p{color:#888;font-size:14px;margin-bottom:20px}
+.rooms-images{display:flex;gap:16px;overflow:hidden;flex:1}
+.rooms-images img{height:480px;object-fit:cover;border-radius:8px;flex-shrink:0}
+.cart-container{max-width:1100px;margin:0 auto;padding:40px 24px;display:flex;gap:32px}
+@media(max-width:768px){.cart-container{flex-direction:column}}
+.cart-table{flex:1}
+.cart-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px;background:#FFF3E3;padding:14px 20px;font-weight:500;font-size:14px;border-radius:4px}
+.cart-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:16px;align-items:center;padding:20px;border-bottom:1px solid #eee}
+.cart-row .product-info{display:flex;align-items:center;gap:12px}
+.cart-row .product-info img{width:64px;height:64px;border-radius:6px;object-fit:cover}
+.cart-row .product-info span{color:#888;font-size:14px}
+.cart-row .price{color:#888;font-size:14px}
+.cart-row .qty-input{width:50px;height:36px;border:1px solid #ddd;border-radius:6px;text-align:center;font-size:14px}
+.cart-row .subtotal-col{display:flex;align-items:center;justify-content:space-between}
+.cart-row .subtotal-col span{font-size:14px}
+.cart-row .delete-btn{background:none;border:none;color:#B88E2F;font-size:18px;cursor:pointer}
+.cart-row .delete-btn:hover{color:#E97171}
+.cart-totals{width:300px;background:#FFF3E3;padding:32px;border-radius:4px;height:fit-content;text-align:center}
+.cart-totals h2{font-size:24px;font-weight:600;margin-bottom:32px}
+.cart-totals .row{display:flex;justify-content:space-between;margin-bottom:16px;font-size:14px}
+.cart-totals .total-price{color:#B88E2F;font-size:18px;font-weight:600}
+.btn-checkout{margin-top:24px;padding:12px 40px;border:2px solid #333;border-radius:12px;background:none;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
+.btn-checkout:hover{background:#333;color:#fff}
+.breadcrumb-bar{background:#FFF3E3;padding:14px 48px}
+.breadcrumb-bar nav{max-width:1100px;margin:0 auto;font-size:14px;color:#888}
+.breadcrumb-bar a{color:#333}
+.product-detail{max-width:1100px;margin:0 auto;padding:40px 24px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:768px){.product-detail{grid-template-columns:1fr}}
+.product-images{display:flex;gap:16px}
+.product-thumbs{display:flex;flex-direction:column;gap:10px}
+.product-thumbs img{width:64px;height:64px;border-radius:8px;object-fit:cover;border:1px solid #ddd;cursor:pointer}
+.product-main-img{flex:1;background:#FFF3E3;border-radius:8px;overflow:hidden}
+.product-main-img img{width:100%;height:100%;object-fit:cover}
+.product-info-detail h1{font-size:30px;font-weight:500}
+.product-info-detail .price{font-size:20px;color:#888;margin-top:4px}
+.stars{color:#FFC700;font-size:14px;margin-top:10px}
+.product-info-detail .description{font-size:14px;color:#888;margin-top:14px;line-height:1.6}
+.size-selector,.color-selector{margin-top:20px}
+.size-selector label,.color-selector label{font-size:13px;color:#888;display:block;margin-bottom:8px}
+.size-btn{width:32px;height:32px;border-radius:6px;border:none;font-size:12px;font-weight:500;cursor:pointer;margin-right:6px;background:#FFF3E3;transition:all .2s}
+.size-btn.active,.size-btn:hover{background:#B88E2F;color:#fff}
+.color-dot{width:28px;height:28px;border-radius:50%;border:none;cursor:pointer;margin-right:8px}
+.color-dot.active{outline:2px solid #333;outline-offset:2px}
+.qty-actions{display:flex;gap:16px;margin-top:32px;flex-wrap:wrap;align-items:center}
+.qty-box{display:flex;border:1px solid #ddd;border-radius:10px;overflow:hidden}
+.qty-box button{width:40px;height:44px;border:none;background:none;font-size:18px;cursor:pointer;font-family:'Poppins',sans-serif}
+.qty-box button:hover{background:#f0f0f0}
+.qty-box span{display:flex;align-items:center;padding:0 16px;font-weight:500}
+.btn-outline{padding:12px 32px;border:2px solid #333;border-radius:10px;background:none;font-weight:500;cursor:pointer;transition:all .2s;font-size:14px;font-family:'Poppins',sans-serif}
+.btn-outline:hover{background:#333;color:#fff}
+.product-meta{margin-top:40px;padding-top:24px;border-top:1px solid #eee}
+.product-meta div{display:flex;gap:16px;font-size:14px;color:#888;margin-bottom:8px}
+.product-meta div span:first-child{width:80px}
+.tabs-section{border-top:1px solid #eee}
+.tabs-header{display:flex;gap:40px;justify-content:center;padding:20px 0;border-bottom:1px solid #eee;max-width:1100px;margin:0 auto}
+.tab-btn{background:none;border:none;font-size:18px;cursor:pointer;padding-bottom:8px;color:#888;transition:all .2s;font-family:'Poppins',sans-serif}
+.tab-btn.active{color:#333;font-weight:600;border-bottom:2px solid #333}
+.tab-content{max-width:900px;margin:32px auto;padding:0 24px;font-size:14px;color:#888;line-height:1.8}
+.checkout-form{max-width:1100px;margin:0 auto;padding:60px 24px;display:grid;grid-template-columns:1fr 1fr;gap:60px}
+@media(max-width:768px){.checkout-form{grid-template-columns:1fr}}
+.checkout-form h2{font-size:28px;font-weight:600;margin-bottom:32px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid #ddd;border-radius:10px;padding:14px 16px;font-size:14px;font-family:'Poppins',sans-serif;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:#B88E2F}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.order-summary .row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:12px}
+.order-summary .row.total{font-size:18px;font-weight:600}
+.order-summary .row.total .val{color:#B88E2F;font-size:20px;font-weight:700}
+.order-summary hr{border:none;border-top:1px solid #eee;margin:16px 0}
+.radio-group{margin-top:16px}
+.radio-group label{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;cursor:pointer;font-size:14px}
+.radio-group input[type=radio]{margin-top:3px;accent-color:#333}
+.radio-desc{font-size:13px;color:#888;margin-top:4px}
+.privacy-text{font-size:13px;color:#888;margin-top:20px}
+.privacy-text a{font-weight:600;text-decoration:underline}
+.about-section{max-width:800px;margin:0 auto;padding:60px 24px}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-bottom:40px}
+@media(max-width:768px){.about-grid{grid-template-columns:1fr}}
+.about-grid img{width:100%;height:300px;object-fit:cover;border-radius:10px}
+.about-grid h2{font-size:24px;font-weight:700;margin-bottom:16px}
+.about-grid p{color:#888;line-height:1.7;font-size:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;margin-bottom:40px}
+.stat-card{background:#FFF3E3;padding:24px;border-radius:10px}
+.stat-card h3{font-size:28px;font-weight:700;color:#B88E2F;margin-bottom:4px}
+.stat-card p{font-size:13px;color:#888}
+.vision{text-align:center}
+.vision h2{font-size:24px;font-weight:700;margin-bottom:16px}
+.vision p{color:#888;line-height:1.7;font-size:14px;max-width:600px;margin:0 auto}
+.contact-section{max-width:1000px;margin:0 auto;padding:60px 24px}
+.contact-title{text-align:center;font-size:24px;font-weight:700;margin-bottom:8px}
+.contact-sub{text-align:center;color:#888;font-size:14px;margin-bottom:48px;max-width:500px;margin-left:auto;margin-right:auto}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+@media(max-width:768px){.contact-grid{grid-template-columns:1fr}}
+.contact-info-item{display:flex;gap:12px;margin-bottom:28px}
+.contact-info-item .icon{font-size:24px;flex-shrink:0;margin-top:4px}
+.contact-info-item h3{font-weight:600;margin-bottom:4px;font-size:15px}
+.contact-info-item p{font-size:13px;color:#888;line-height:1.5}
+.btn-submit{background:#B88E2F;color:#fff;border:none;padding:14px 40px;font-weight:500;border-radius:6px;cursor:pointer;font-size:14px;font-family:'Poppins',sans-serif}
+.btn-submit:hover{opacity:.9}
+.empty-cart{text-align:center;padding:48px;color:#888}
+.empty-cart a{color:#B88E2F;font-weight:500}
+.empty-cart a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="logo">Furniro.</a>
+  <div class="nav-links"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
+  <div class="nav-icons">
+    <a href="#">&#128100;</a>
+    <a href="#">&#128269;</a>
+    <a href="#">&#9825;</a>
+    <a href="cart.html" style="position:relative">&#128722;<span id="cart-badge" class="cart-badge" style="display:none">0</span></a>
+  </div>
+</nav>
+
+<div class="page-banner"><h1>Cart</h1><p class="breadcrumb"><a href="index.html">Home</a> &gt; Cart</p></div>
+<div class="cart-container">
+  <div class="cart-table">
+    <div class="cart-header"><span>Product</span><span>Price</span><span>Quantity</span><span>Subtotal</span></div>
+    <div id="cart-items"></div>
+  </div>
+  <div class="cart-totals">
+    <h2>Cart Totals</h2>
+    <div class="row"><span>Subtotal</span><span id="cart-subtotal">Rp 0</span></div>
+    <div class="row"><span>Total</span><span id="cart-total" class="total-price">Rp 0</span></div>
+    <button class="btn-checkout" onclick="goCheckout()">Check Out</button>
+  </div>
+</div>
+
+<div class="features-bar">
+  <div class="features-inner">
+    <div class="feature-item"><span class="icon">&#127942;</span><div><h3>High Quality</h3><p>crafted from top materials</p></div></div>
+    <div class="feature-item"><span class="icon">&#128737;&#65039;</span><div><h3>Warranty Protection</h3><p>Over 2 years</p></div></div>
+    <div class="feature-item"><span class="icon">&#128666;</span><div><h3>Free Shipping</h3><p>Order over 150 $</p></div></div>
+    <div class="feature-item"><span class="icon">&#127911;</span><div><h3>24 / 7 Support</h3><p>Dedicated support</p></div></div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-inner">
+    <div><h3>Furniro.</h3><p style="color:#888;font-size:13px;line-height:1.6">400 University Drive Suite 200 Coral Gables,<br>FL 33134 USA</p></div>
+    <div><h4>Links</h4><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><h4>Help</h4><ul><li><a href="#">Payment Options</a></li><li><a href="#">Returns</a></li><li><a href="#">Privacy Policies</a></li></ul></div>
+    <div><h4>Newsletter</h4><div style="display:flex;gap:8px"><input type="email" placeholder="Enter Your Email" style="flex:1;border:none;border-bottom:1px solid #333;padding:6px 0;font-size:13px;font-family:Poppins,sans-serif;outline:none;background:transparent"><button onclick="alert('Berhasil subscribe!')" style="border:none;border-bottom:1px solid #333;background:none;font-size:13px;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif">SUBSCRIBE</button></div></div>
+  </div>
+  <div class="footer-bottom">2023 Furniro. All rights reserved</div>
+</footer>
+<script>
+function getCart(){return JSON.parse(localStorage.getItem('furniro_cart')||'[]');}
+function saveCart(c){localStorage.setItem('furniro_cart',JSON.stringify(c));updateCartBadge();}
+function addToCart(id,name,price,image,qty){
+  var c=getCart();var found=false;
+  for(var i=0;i<c.length;i++){if(c[i].id===id){c[i].quantity+=qty||1;found=true;break;}}
+  if(!found)c.push({id:id,name:name,price:price,image:image,quantity:qty||1});
+  saveCart(c);alert(name+' ditambahkan ke keranjang!');
+}
+function removeFromCart(id){var c=getCart().filter(function(i){return i.id!==id;});saveCart(c);}
+function updateQty(id,q){var c=getCart();for(var i=0;i<c.length;i++){if(c[i].id===id){if(q<1){c.splice(i,1);}else{c[i].quantity=q;}break;}}saveCart(c);}
+function getTotal(){return getCart().reduce(function(s,i){return s+i.price*i.quantity;},0);}
+function getItemCount(){return getCart().reduce(function(s,i){return s+i.quantity;},0);}
+function formatRp(n){return 'Rp '+n.toLocaleString('id-ID');}
+function updateCartBadge(){
+  var b=document.getElementById('cart-badge');
+  if(b){var count=getItemCount();if(count>0){b.textContent=count;b.style.display='flex';}else{b.style.display='none';}}
+}
+document.addEventListener('DOMContentLoaded',function(){updateCartBadge();});
+</script>
+<script>
+function renderCart(){
+  var c=getCart();var container=document.getElementById('cart-items');container.innerHTML='';
+  if(c.length===0){container.innerHTML='<div class="empty-cart">Keranjang kosong. <a href="index.html">Belanja sekarang</a></div>';
+  }else{
+    for(var i=0;i<c.length;i++){
+      var item=c[i];
+      var row=document.createElement('div');row.className='cart-row';
+      row.innerHTML='<div class="product-info"><img src="'+item.image+'" alt="'+item.name+'"><span>'+item.name+'</span></div><span class="price">'+formatRp(item.price)+'</span><input class="qty-input" type="number" value="'+item.quantity+'" min="1" data-id="'+item.id+'"><div class="subtotal-col"><span>'+formatRp(item.price*item.quantity)+'</span><button class="delete-btn" data-id="'+item.id+'">&#128465;</button></div>';
+      container.appendChild(row);
+    }
+  }
+  document.getElementById('cart-subtotal').textContent=formatRp(getTotal());
+  document.getElementById('cart-total').textContent=formatRp(getTotal());
+}
+document.addEventListener('click',function(e){
+  if(e.target.classList.contains('delete-btn')){removeFromCart(e.target.getAttribute('data-id'));renderCart();}
+});
+document.addEventListener('change',function(e){
+  if(e.target.classList.contains('qty-input')){updateQty(e.target.getAttribute('data-id'),parseInt(e.target.value)||1);renderCart();}
+});
+function goCheckout(){if(getCart().length>0)window.location.href='checkout.html';else alert('Keranjang kosong!');}
+document.addEventListener('DOMContentLoaded',renderCart);
+</script>
+</body>
+</html>
